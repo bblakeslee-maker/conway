@@ -3,3 +3,4 @@ interval: 1.0
 iterations: 10
 threshold: 0.5
 width: 10
+world: null
