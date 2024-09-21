@@ -29,6 +29,7 @@ class Conway:
 
     def update_grid(self):
         new_board = np.zeros(self.__world.shape, dtype=int)
+        # This wrap parameter assumes that the world is round
         neighbor_counts = sni.convolve(self.__world, self.__neighbor_filter, mode='wrap')
         # A cell that is alive changes state to dead if its neighbors include 0 or 1 alive cells
         dead_cell_1 = (self.__world == 1) & ((neighbor_counts == 0) | (neighbor_counts == 1))
