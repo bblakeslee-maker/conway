@@ -1,7 +1,6 @@
 import argparse
 import pathlib
 import signal
-import time
 import types
 
 import conway
