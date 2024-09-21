@@ -15,12 +15,15 @@ def interrupt_handler(signum: int, frame: types.FrameType):
 
 
 def main(config_path: pathlib.Path):
-    game = conway.Conway(config_path)
-    while True:
-        print(game)
-        game.update_grid()
-        if halt_flag:
-            return
+    try:
+        game = conway.Conway(config_path)
+        while True:
+            print(game)
+            game.update_grid()
+            if halt_flag:
+                return
+    except ValueError as ve:
+        print(ve)
 
 
 if __name__ == '__main__':
