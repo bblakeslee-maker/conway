@@ -1,5 +1,6 @@
 import pathlib
 import time
+import typing
 
 import numpy as np
 import scipy.ndimage as sni
@@ -14,18 +15,28 @@ class Conway:
         self.__interval = float(config['interval'])
         self.__max_iterations = int(config['iterations'])
         self.__iteration_counter = 1
-        self.__height = int(config['height'])
-        self.__width = int(config['width'])
-        self.__world = self.__init_world()
         self.__neighbor_filter = np.array([[1, 1, 1],
                                            [1, 0, 1],
                                            [1, 1, 1]])
+        self.__world = self.__init_world(config)
 
-    def __init_world(self):
-        return np.random.choice(
-            (0, 1),
-            size=(self.__height, self.__width),
-            p=(1 - self.__threshold, self.__threshold))
+    def __init_world(self, config: typing.Dict):
+        if config['world'] is None:
+            if 0.0 <= self.__threshold <= 1:
+                print('Initializing random world!')
+                self.__height = int(config['height'])
+                self.__width = int(config['width'])
+                return np.random.choice(
+                    (0, 1),
+                    size=(self.__height, self.__width),
+                    p=(1 - self.__threshold, self.__threshold))
+            else:
+                raise ValueError('ERROR: Invalid threshold value!')
+        else:
+            print('Initializing fixed world!')
+            fixed_world = np.array(config['world'])
+            self.__height, self.__width = fixed_world.shape
+            return fixed_world
 
     def update_grid(self):
         new_world = np.zeros(self.__world.shape, dtype=int)
