@@ -19,6 +19,9 @@ class Conway:
                                            [1, 0, 1],
                                            [1, 1, 1]])
         self.__world = self.__init_world(config)
+        np.set_printoptions(
+            threshold=(self.__height * self.__width) + 1,
+            linewidth=512)
 
     def __init_world(self, config: typing.Dict):
         if config['world'] is None:
